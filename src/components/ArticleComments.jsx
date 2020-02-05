@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../api";
+import CommentAdder from "./CommentAdder";
 
 export default class ArticleComments extends Component {
   state = {
@@ -9,6 +10,8 @@ export default class ArticleComments extends Component {
   render() {
     return (
       <section className="articleComments">
+        <br />
+        <CommentAdder user={this.props.user} />
         <ul>
           {this.state.comments.map(comment => {
             return (

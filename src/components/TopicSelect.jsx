@@ -32,9 +32,10 @@ export default class TopicSelect extends Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.setDefault !== this.props.setDefault) {
+  componentDidUpdate() {
+    if (this.props.setDefault) {
       this.setState({ curOption: "Select a topic" });
+      this.props.resetDefault();
     }
   }
 

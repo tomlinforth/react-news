@@ -12,12 +12,19 @@ export default class NavBar extends Component {
         <Link to="/articles">
           <button onClick={this.handleClick}>All articles</button>
         </Link>
-        <TopicSelect setDefault={this.state.setDefault} />
+        <TopicSelect
+          setDefault={this.state.setDefault}
+          resetDefault={this.resetDefault}
+        />
       </nav>
     );
   }
 
   handleClick = () => {
     this.setState({ setDefault: true });
+  };
+
+  resetDefault = () => {
+    this.setState({ setDefault: false });
   };
 }
