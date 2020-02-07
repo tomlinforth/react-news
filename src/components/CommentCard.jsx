@@ -3,14 +3,15 @@ import VotingBtns from "./VotingBtns";
 
 export default function CommentCard(props) {
   return (
-    <li>
-      {props.comment.author} : {props.comment.body}
+    <section className="commentAndVotes">
+      <li className="commentCard">
+        <b>{props.comment.author} : </b> {props.comment.body}
+      </li>{" "}
       <VotingBtns
         user={props.user}
         comment_id={props.comment.comment_id}
         votes={props.comment.votes}
       />
-      <br />
       {props.user === props.comment.author && (
         <button
           id={props.comment.comment_id}
@@ -20,6 +21,6 @@ export default function CommentCard(props) {
           Delete comment
         </button>
       )}
-    </li>
+    </section>
   );
 }

@@ -6,21 +6,27 @@ export default class VotingBtns extends Component {
   render() {
     return (
       <section className="votingSection">
-        <button
-          disabled={!this.props.user || this.state.downvoteClicked === true}
-          value="1"
-          onClick={this.handleUpVoteClick}
-        >
-          ↑
-        </button>
+        <section className="votingBtns">
+          <button
+            disabled={!this.props.user || this.state.downvoteClicked === true}
+            value="1"
+            onClick={this.handleUpVoteClick}
+            className={this.state.upvoteClicked ? "upvoteClicked" : "voteBtn"}
+          >
+            ↑
+          </button>
+          <button
+            disabled={!this.props.user || this.state.upvoteClicked === true}
+            value="-1"
+            onClick={this.handleDownVoteClick}
+            className={
+              this.state.downvoteClicked ? "downvoteClicked" : "voteBtn"
+            }
+          >
+            ↓
+          </button>
+        </section>
         <p>Votes:{this.state.votes}</p>
-        <button
-          disabled={!this.props.user || this.state.upvoteClicked === true}
-          value="-1"
-          onClick={this.handleDownVoteClick}
-        >
-          ↓
-        </button>
       </section>
     );
   }

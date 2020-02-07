@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 import * as api from "../api";
 import CommentAdder from "./CommentAdder";
 import CommentCard from "./CommentCard";
+import Loading from "./Loading";
 
 export default class ArticleComments extends Component {
   state = {
@@ -12,6 +13,7 @@ export default class ArticleComments extends Component {
     curPage: 1
   };
   render() {
+    if (this.state.comments.length === 0) return <Loading />;
     return (
       <section className="articleComments">
         <br />

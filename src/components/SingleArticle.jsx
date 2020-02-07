@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as api from "../api";
 import { Router, navigate } from "@reach/router";
 import ArticleComments from "./ArticleComments";
+import Loading from "./Loading";
 
 export default class SingleArticle extends Component {
   state = {
@@ -9,17 +10,18 @@ export default class SingleArticle extends Component {
     showComment: false
   };
   render() {
+    if (!this.state.article.title) return <Loading />;
     return (
       <section className="singleArticlePage">
-        {Object.keys(this.state.article).map(articleKey => {
-          return (
-            <p key={articleKey}>
-              {articleKey} : {this.state.article[articleKey]}
-            </p>
-          );
-        })}
+        <h4>{this.state.article.title}</h4>
+        <p>{this.state.article.body}</p>
+        <p>
+          <i>Written by {this.state.article.author}</i>
+        </p>
         <button onClick={this.showHideComments}>
-          {this.state.showComment ? "Hide comments" : "Show comments"}
+          {this.state.showComment
+            ? "Hide comments"
+            : `Show comments (${this.state.article.comment_count})`}
         </button>
         <Router>
           <ArticleComments

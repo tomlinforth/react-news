@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../api";
+import Loading from "./Loading";
 
 export default class CommentAdder extends Component {
   state = {
@@ -9,16 +10,24 @@ export default class CommentAdder extends Component {
     return this.props.user ? (
       <section className="commentAdder">
         <form onSubmit={this.handleSubmit}>
-          {this.props.user} :{" "}
-          <textarea
-            id="commentInput"
-            value={this.state.commentInput}
-            onChange={this.validateInput}
-            onClick={this.removeDefaultText}
-          />
-          <br />
-          {this.state.commentInput === "" && <p>You cant comment nothing!</p>}
-          <button>Add comment.</button>
+          {this.state.isLoading ? (
+            <Loading />
+          ) : (
+            <section className="formContent">
+              <b>{this.props.user} : </b>
+              <textarea
+                id="commentInput"
+                value={this.state.commentInput}
+                onChange={this.validateInput}
+                onClick={this.removeDefaultText}
+              />
+              <br />
+              {this.state.commentInput === "" && (
+                <p>You cant comment nothing!</p>
+              )}
+              <button type="submit">Add comment.</button>
+            </section>
+          )}
         </form>
       </section>
     ) : (
@@ -36,7 +45,7 @@ export default class CommentAdder extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { value } = event.target.children[0];
+    const { value } = event.target.children.commentInput;
     if (value !== "Enter your comment here." && value.length > 0) {
       api
         .addCommentOnArticle(

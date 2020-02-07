@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as api from "../api";
 import ArticleCard from "./ArticleCard";
 import SortArticleBar from "./SortArticleBar";
+import Loading from "./Loading";
 
 export default class AllArticles extends Component {
   state = {
@@ -9,7 +10,8 @@ export default class AllArticles extends Component {
     total_articles: 0,
     curPage: 1,
     article_count: 0,
-    sortQuery: { sortBy: null, order: null }
+    sortQuery: { sortBy: null, order: null },
+    isLoading: true
   };
 
   render() {
@@ -17,17 +19,25 @@ export default class AllArticles extends Component {
       <section className="articlesPage">
         <br />
         <SortArticleBar changeQuery={this.changeSortQuery} />
-        <ul className="allArticlesList">
-          {this.state.articles.map(article => {
-            return (
-              <ArticleCard
-                article={article}
-                key={article.article_id}
-                user={this.props.user}
-              />
-            );
-          })}
-        </ul>
+        <br />
+        <br />
+        <button onClick={this.prevPage}>{"<"} </button>
+        <button onClick={this.nextPage}>{">"}</button>
+        {this.state.isLoading ? (
+          <Loading />
+        ) : (
+          <ul className="allArticlesList">
+            {this.state.articles.map(article => {
+              return (
+                <ArticleCard
+                  article={article}
+                  key={article.article_id}
+                  user={this.props.user}
+                />
+              );
+            })}
+          </ul>
+        )}
         <button onClick={this.prevPage}>{"<"} </button>
         <button onClick={this.nextPage}>{">"}</button>
       </section>
@@ -52,6 +62,7 @@ export default class AllArticles extends Component {
 
   nextPage = () => {
     if (this.state.article_count < this.state.total_articles) {
+      this.setState({ isLoading: true });
       this.fetchArticles(
         { page: this.state.curPage + 1, ...this.state.sortQuery },
         { inc: true }
@@ -61,6 +72,7 @@ export default class AllArticles extends Component {
 
   prevPage = () => {
     if (this.state.curPage > 1) {
+      this.setState({ isLoading: true });
       this.fetchArticles(
         { page: this.state.curPage - 1, ...this.state.sortQuery },
         { dec: true }
@@ -76,7 +88,8 @@ export default class AllArticles extends Component {
             return {
               articles,
               curPage: curState.curPage + 1,
-              article_count: curState.article_count + articles.length
+              article_count: curState.article_count + articles.length,
+              isLoading: false
             };
           });
         });
@@ -87,7 +100,8 @@ export default class AllArticles extends Component {
             return {
               articles,
               curPage: curState.curPage - 1,
-              article_count: curState.article_count - curState.articles.length
+              article_count: curState.article_count - curState.articles.length,
+              isLoading: false
             };
           });
         });
@@ -95,7 +109,8 @@ export default class AllArticles extends Component {
       options.update &&
         api.getArticles(query).then(({ articles }) => {
           this.setState({
-            articles
+            articles,
+            isLoading: false
           });
         });
     } else {
@@ -103,7 +118,8 @@ export default class AllArticles extends Component {
         this.setState({
           articles,
           total_articles,
-          article_count: articles.length
+          article_count: articles.length,
+          isLoading: false
         });
       });
     }
@@ -116,9 +132,12 @@ export default class AllArticles extends Component {
       queryArr.forEach((item, index) => {
         if (index % 2 === 0) query[item] = queryArr[index + 1];
       });
-      this.setState({ sortQuery: query });
+      this.setState({ sortQuery: query, isLoading: true });
     } else {
-      this.setState({ sortQuery: { sortBy: null, order: null } });
+      this.setState({
+        sortQuery: { sortBy: null, order: null },
+        isLoading: true
+      });
     }
   };
 }

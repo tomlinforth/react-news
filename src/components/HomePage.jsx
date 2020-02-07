@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import * as api from "../api";
+import Loading from "./Loading";
 
 export default class HomePage extends Component {
   state = { users: [] };
   render() {
+    if (this.state.users.length === 0) {
+      return <Loading />;
+    }
     if (!this.props.user) {
       return (
-        <section id="homePage">
+        <section className="homePage">
           <h3>Login</h3>
           {this.state.users.map(user => {
             return (
@@ -28,7 +32,7 @@ export default class HomePage extends Component {
       );
     } else {
       return (
-        <section id="homePage">
+        <section className="homePage">
           <p>You are logged in as: {this.props.user}</p>
           <button value={null} onClick={this.props.handleLogin}>
             Logout

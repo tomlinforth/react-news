@@ -2,6 +2,15 @@
   height: 40vmin;
   pointer-events: none;
 }
+html {
+  /* background: rgb(147, 148, 148);
+  background: linear-gradient(
+    90deg,
+    rgba(114, 153, 153) 0%,
+    rgba(167, 221, 226, 1) 100%
+  ); */
+  background-image: url(https://us.123rf.com/450wm/katiaj/katiaj1509/katiaj150900526/62622146-white-paper-watercolor-seamless-texture.jpg?ver=6);
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -34,8 +43,11 @@
 }
 
 ul {
+  list-style-type: none;
+  margin-right: 40px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -49,13 +61,12 @@ ul {
 
 .App {
   text-align: center;
-  /* display: grid;
-  grid-template-columns: 40px auto 40px;
-  grid-template-rows: 5% 5% auto;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
   grid-template-areas:
     "none header logInfo"
-    "nav nav nav"
-    "mainContent mainContent mainContent"; */
+    ". nav ."
+    ". mainContent .";
   /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -64,33 +75,97 @@ ul {
 }
 .logInfo {
   /* align-self: flex-end; */
-  /* grid-area: logInfo; */
+  grid-area: logInfo;
 }
 
 .header {
   /* flex-basis: 80%; */
-  /* grid-area: header; */
+  grid-area: header;
 }
 
 .nav {
-  /* grid-area: nav; */
+  grid-area: nav;
 }
 
 .mainContent {
-  /* grid-area: mainContent; */
+  grid-area: mainContent;
 }
 
-#homePage {
-  /* grid-area: mainContent; */
+.homePage {
+  grid-area: mainContent;
 }
 
 .articlesPage {
-  /* grid-area: mainContent; */
+  grid-area: mainContent;
 }
 .singleArticlePage {
-  /* grid-area: mainContent; */
+  grid-area: mainContent;
 }
 
 .topicList {
-  /* grid-area: mainContent; */
+  grid-area: mainContent;
+}
+
+.articleCard {
+  align-self: stretch;
+  border-style: inset;
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0.397);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commentCard {
+  border-style: inset;
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0.397);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  align-items: center;
+}
+
+.downvoteClicked {
+  font-size: large;
+  margin: 10px;
+  background-color: rgba(241, 81, 81, 0.89);
+}
+
+.upvoteClicked {
+  font-size: large;
+  margin: 10px;
+  background-color: rgba(65, 190, 65, 0.835);
+}
+
+.voteBtn {
+  font-size: large;
+  margin: 10px;
+}
+
+.votingSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.votingBtns {
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingElement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commentAndVotes {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.commentDelBtn {
+  align-self: flex-end;
 }

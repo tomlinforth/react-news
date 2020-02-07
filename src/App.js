@@ -19,31 +19,23 @@ class App extends Component {
           loggedUser={this.state.loggedUser}
           loggedUserImg={this.state.loggedUserImg}
           handleLogin={this.handleLoginLogout}
-          className="logInfo"
         />
         <Header user={this.state.loggedUser} className="header" />
-        <NavBar className="nav" />
+        <NavBar />
         <Router className="mainContent">
           <HomePage
             path="/"
             user={this.state.loggedUser}
             handleLogin={this.handleLoginLogout}
-            id="homePage"
           />
-          <AllArticles
-            path="/articles"
-            user={this.state.loggedUser}
-            className="articlesPage"
-          />
+          <AllArticles path="/articles" user={this.state.loggedUser} />
           <SingleArticle
             path="/articles/:article_id/*"
             user={this.state.loggedUser}
-            className="singleArticlePage"
           />
           <SingleTopic
             path="/topics/:topic_slug"
             user={this.state.loggedUser}
-            className="topicList"
           />
         </Router>
       </div>
