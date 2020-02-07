@@ -17,9 +17,15 @@ export default class AllArticles extends Component {
       <section className="articlesPage">
         <br />
         <SortArticleBar changeQuery={this.changeSortQuery} />
-        <ul>
+        <ul className="allArticlesList">
           {this.state.articles.map(article => {
-            return <ArticleCard article={article} key={article.article_id} />;
+            return (
+              <ArticleCard
+                article={article}
+                key={article.article_id}
+                user={this.props.user}
+              />
+            );
           })}
         </ul>
         <button onClick={this.prevPage}>{"<"} </button>

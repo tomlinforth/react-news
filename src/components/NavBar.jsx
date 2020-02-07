@@ -8,7 +8,10 @@ export default class NavBar extends Component {
   };
   render() {
     return (
-      <nav>
+      <nav className="nav">
+        <Link to="/">
+          <button onClick={this.handleClick}>Home</button>
+        </Link>
         <Link to="/articles">
           <button onClick={this.handleClick}>All articles</button>
         </Link>

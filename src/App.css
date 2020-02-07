@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +31,66 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginAvatar {
+  height: 50px;
+}
+
+.smallLoginAvatar {
+  height: 30px;
+}
+
+.App {
+  text-align: center;
+  /* display: grid;
+  grid-template-columns: 40px auto 40px;
+  grid-template-rows: 5% 5% auto;
+  grid-template-areas:
+    "none header logInfo"
+    "nav nav nav"
+    "mainContent mainContent mainContent"; */
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center; */
+}
+.logInfo {
+  /* align-self: flex-end; */
+  /* grid-area: logInfo; */
+}
+
+.header {
+  /* flex-basis: 80%; */
+  /* grid-area: header; */
+}
+
+.nav {
+  /* grid-area: nav; */
+}
+
+.mainContent {
+  /* grid-area: mainContent; */
+}
+
+#homePage {
+  /* grid-area: mainContent; */
+}
+
+.articlesPage {
+  /* grid-area: mainContent; */
+}
+.singleArticlePage {
+  /* grid-area: mainContent; */
+}
+
+.topicList {
+  /* grid-area: mainContent; */
 }

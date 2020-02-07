@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as api from "../api";
 
 export default class CommentAdder extends Component {
   state = {
@@ -15,11 +16,13 @@ export default class CommentAdder extends Component {
             onChange={this.validateInput}
             onClick={this.removeDefaultText}
           />
+          <br />
+          {this.state.commentInput === "" && <p>You cant comment nothing!</p>}
           <button>Add comment.</button>
         </form>
       </section>
     ) : (
-      <p>You must be logged in to add a comment!</p>
+      <p>You must be logged in to add a comment! </p>
     );
   }
   validateInput = event => {
@@ -33,5 +36,19 @@ export default class CommentAdder extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { value } = event.target.children[0];
+    if (value !== "Enter your comment here." && value.length > 0) {
+      api
+        .addCommentOnArticle(
+          Number(this.props.article_id),
+          this.props.user,
+          value
+        )
+        .then(() => {
+          this.props.commentIsAdded();
+        })
+        .catch(err => console.dir(err));
+    } else if (value === "") {
+    }
   };
 }

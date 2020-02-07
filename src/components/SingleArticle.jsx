@@ -10,7 +10,7 @@ export default class SingleArticle extends Component {
   };
   render() {
     return (
-      <section>
+      <section className="singleArticlePage">
         {Object.keys(this.state.article).map(articleKey => {
           return (
             <p key={articleKey}>
@@ -22,14 +22,20 @@ export default class SingleArticle extends Component {
           {this.state.showComment ? "Hide comments" : "Show comments"}
         </button>
         <Router>
-          <ArticleComments path="/comments" user={this.props.user} />
+          <ArticleComments
+            path="/comments"
+            user={this.props.user}
+            total_comments={this.state.article.comment_count}
+            getCommentTotal={this.getCommentCount}
+            trueOnMount={this.setTrueOnCommentsMount}
+          />
         </Router>
       </section>
     );
   }
   componentDidMount() {
     api.getArticleById(this.props.article_id).then(article => {
-      this.setState({ article, showComment: false });
+      this.setState({ article });
     });
   }
 
@@ -42,5 +48,15 @@ export default class SingleArticle extends Component {
       }
       return { showComment: !curState.showComment };
     });
+  };
+
+  getCommentCount = () => {
+    return api.getArticleById(this.props.article_id).then(article => {
+      return article.comment_count;
+    });
+  };
+
+  setTrueOnCommentsMount = () => {
+    this.setState({ showComment: true });
   };
 }

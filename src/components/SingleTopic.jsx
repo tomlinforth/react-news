@@ -11,11 +11,17 @@ export default class SingleTopic extends Component {
   };
   render() {
     return (
-      <section name="topicList">
+      <section className="topicList">
         <h2>Topic : {this.props.topic_slug}</h2>
-        <ul>
+        <ul className="topicArticleList">
           {this.state.topic_articles.map(article => {
-            return <ArticleCard article={article} key={article.article_id} />;
+            return (
+              <ArticleCard
+                article={article}
+                key={article.article_id}
+                user={this.props.user}
+              />
+            );
           })}
         </ul>
         <button onClick={this.prevPage}>{"<"} </button>
