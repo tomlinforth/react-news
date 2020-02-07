@@ -19,7 +19,6 @@ export default class CommentAdder extends Component {
           <br />
           {this.state.commentInput === "" && <p>You cant comment nothing!</p>}
           <button type="submit">Add comment.</button>
-          )}
         </form>
       </section>
     ) : (
