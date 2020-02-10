@@ -86,10 +86,12 @@ ul {
 
 .header {
   grid-area: header;
+  margin-left: 20px;
 }
 
 .nav {
   grid-area: nav;
+  margin-left: 20px;
 }
 
 .mainContent {
