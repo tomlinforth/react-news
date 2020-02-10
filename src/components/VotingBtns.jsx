@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import * as api from "../api";
+import ErrorPage from "./ErrorPage";
 
 export default class VotingBtns extends Component {
-  state = { votes: 0, upvoteClicked: false, downvoteClicked: false };
+  state = {
+    votes: 0,
+    upvoteClicked: false,
+    downvoteClicked: false,
+    error: null
+  };
   render() {
+    if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <section className="votingSection">
         <section className="votingBtns">
@@ -64,9 +71,13 @@ export default class VotingBtns extends Component {
 
   updateVotes = vote => {
     if (this.props.article_id) {
-      api.updateVoteOnArticle(this.props.article_id, vote);
+      api.updateVoteOnArticle(this.props.article_id, vote).catch(error => {
+        this.setState({ error });
+      });
     } else if (this.props.comment_id) {
-      api.updateVoteOnComment(this.props.comment_id, vote);
+      api.updateVoteOnComment(this.props.comment_id, vote).catch(error => {
+        this.setState({ error });
+      });
     }
   };
 }

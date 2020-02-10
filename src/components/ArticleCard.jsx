@@ -5,10 +5,10 @@ import VotingBtns from "./VotingBtns";
 const dateReg = /\d{4}-\d{2}-\d{2}/;
 export default function ArticleCard(props) {
   return (
-    <section className="articleCard">
+    <li className="articleCard">
       <section className="articleCardText">
         <Link to={`/articles/${props.article.article_id}`}>
-          <li>{props.article.title}</li>
+          <p>{props.article.title}</p>
         </Link>
         <p>
           <i>
@@ -26,6 +26,6 @@ export default function ArticleCard(props) {
         votes={props.article.votes}
         article_id={props.article.article_id}
       />
-    </section>
+    </li>
   );
 }

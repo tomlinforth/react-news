@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import * as api from "../api";
 import Loading from "./Loading";
+import ErrorPage from "./ErrorPage";
 
 export default class HomePage extends Component {
-  state = { users: [] };
+  state = { users: [], isLoading: true, error: null };
   render() {
-    if (this.state.users.length === 0) {
+    if (this.state.isLoading) {
       return <Loading />;
     }
+    if (this.state.error) return <ErrorPage error={this.state.error} />;
     if (!this.props.user) {
       return (
         <section className="homePage">
@@ -42,8 +44,13 @@ export default class HomePage extends Component {
     }
   }
   componentDidMount() {
-    api.getUsers().then(users => {
-      this.setState({ users });
-    });
+    api
+      .getUsers()
+      .then(users => {
+        this.setState({ users, isLoading: false });
+      })
+      .catch(error => {
+        this.setState({ error, isLoading: false });
+      });
   }
 }

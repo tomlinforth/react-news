@@ -4,16 +4,18 @@ import * as api from "../api";
 import CommentAdder from "./CommentAdder";
 import CommentCard from "./CommentCard";
 import Loading from "./Loading";
+import ErrorPage from "./ErrorPage";
 
 export default class ArticleComments extends Component {
   state = {
     comments: [],
-    total_comments: 0,
-    comment_count: 0,
-    curPage: 1
+    curPage: 1,
+    isLoading: true,
+    error: null
   };
   render() {
-    if (this.state.comments.length === 0) return <Loading />;
+    if (this.state.isLoading) return <Loading />;
+    if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <section className="articleComments">
         <br />
@@ -34,7 +36,7 @@ export default class ArticleComments extends Component {
             );
           })}
         </ul>
-        {this.state.comment_count < this.state.total_comments ? (
+        {this.state.comments.length < this.props.total_comments ? (
           <Link
             to={`/articles/${this.props.article_id}/comments`}
             onClick={this.loadNextPage}
@@ -56,54 +58,67 @@ export default class ArticleComments extends Component {
   }
 
   fetchComments = () => {
-    api.getCommentsForArticle(this.props.article_id).then(comments => {
-      this.setState({
-        comments,
-        total_comments: this.props.total_comments,
-        comment_count: comments.length,
-        curPage: 1
+    api
+      .getCommentsForArticle(this.props.article_id)
+      .then(comments => {
+        this.setState({
+          comments,
+          curPage: 1,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({ error, isLoading: false });
       });
-    });
   };
 
   componentDidMount() {
     this.fetchComments();
-    if (!this.state.total_comments)
-      this.props
-        .getCommentTotal()
-        .then(total_comments => this.setState({ total_comments }));
     this.props.trueOnMount();
   }
 
-  commentIsAdded = () => {
-    this.fetchComments();
-  };
-
-  handleDeleteClick = event => {
-    api.removeCommentById(event.target.id).then(() => {
-      this.fetchComments();
+  commentIsAdded = comment => {
+    this.setState(curState => {
+      this.props.updateCommentTotal(1);
+      return { comments: [comment, ...curState.comments] };
     });
   };
 
+  handleDeleteClick = event => {
+    api
+      .removeCommentById(event.target.id)
+      .then(() => {
+        this.fetchComments();
+        this.props.updateCommentTotal(-1);
+      })
+      .catch(error => {
+        this.setState({ error, isLoading: false });
+      });
+  };
+
   loadNextPage = () => {
-    if (this.state.comment_count < this.state.total_comments)
-      api
-        .getCommentsForArticle(this.props.article_id, {
-          page: this.state.curPage + 1
-        })
-        .then(comments => {
-          this.setState(curState => {
-            const commentsCopy = curState.comments.map(({ ...comment }) => {
-              return comment;
-            });
-            commentsCopy.push(...comments);
-            return {
-              comments: commentsCopy,
-              curPage: curState.curPage + 1,
-              comment_count: curState.comment_count + comments.length
-            };
+    if (this.state.comments.length < this.props.total_comments)
+      this.setState({ isLoading: true });
+    api
+      .getCommentsForArticle(this.props.article_id, {
+        page: this.state.curPage + 1
+      })
+      .then(comments => {
+        this.setState(curState => {
+          const commentsCopy = curState.comments.map(({ ...comment }) => {
+            return comment;
           });
+          commentsCopy.push(...comments);
+          return {
+            comments: commentsCopy,
+            curPage: curState.curPage + 1,
+            isLoading: false
+          };
         });
+      })
+      .catch(error => {
+        this.setState({ error, isLoading: false });
+      });
   };
 
   loadFirstPage = () => {

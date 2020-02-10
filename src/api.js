@@ -25,7 +25,7 @@ export const getArticles = query => {
 
 export const getArticleById = id => {
   return axios
-    .get(`https://toms-news-api.herokuapp.com/api/articles/${id}`)
+    .get(`https://toms-news-api.herokuapp.com/api/articles/${id}9999`)
     .then(({ data }) => {
       return data.article;
     });

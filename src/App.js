@@ -9,10 +9,12 @@ import SingleArticle from "./components/SingleArticle";
 import SingleTopic from "./components/SingleTopic";
 import HomePage from "./components/HomePage";
 import LoggedUserInfo from "./components/LoggedUserInfo";
+import ErrorPage from "./components/ErrorPage";
 
 class App extends Component {
-  state = { loggedUser: null, loggedUserImg: null };
+  state = { loggedUser: null, loggedUserImg: null, error: null };
   render() {
+    if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <div className="App">
         <LoggedUserInfo
@@ -42,19 +44,28 @@ class App extends Component {
     );
   }
 
+  componentDidMount() {
+    this.setState({ loggedUser: localStorage.getItem("loggedUser") });
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.loggedUser !== this.state.loggedUser &&
       this.state.loggedUser
     ) {
-      getUserByUsername(this.state.loggedUser).then(user => {
-        this.setState({ loggedUserImg: user.avatar_url });
-      });
+      getUserByUsername(this.state.loggedUser)
+        .then(user => {
+          this.setState({ loggedUserImg: user.avatar_url });
+        })
+        .catch(error => {
+          this.setState({ error });
+        });
     }
   }
   handleLoginLogout = event => {
     const { value } = event.target;
     this.setState({ loggedUser: value });
+    localStorage.setItem("loggedUser", value);
   };
 }
 export default App;

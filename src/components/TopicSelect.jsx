@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import * as api from "../api";
 import { navigate } from "@reach/router";
+import ErrorPage from "./ErrorPage";
 
 export default class TopicSelect extends Component {
   state = {
     topicList: [],
-    curOption: "Select a topic"
+    curOption: "Select a topic",
+    error: null
   };
   render() {
+    if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <select
         name="topicSelect"
@@ -27,9 +30,14 @@ export default class TopicSelect extends Component {
     );
   }
   componentDidMount() {
-    api.getTopics().then(topics => {
-      this.setState({ topicList: topics });
-    });
+    api
+      .getTopics()
+      .then(topics => {
+        this.setState({ topicList: topics });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
   componentDidUpdate() {
