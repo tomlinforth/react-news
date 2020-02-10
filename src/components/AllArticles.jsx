@@ -20,12 +20,14 @@ export default class AllArticles extends Component {
     if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <section className="articlesPage">
-        <br />
         <SortArticleBar changeQuery={this.changeSortQuery} />
         <br />
-        <br />
-        <button onClick={this.prevPage}>{"<"} </button>
-        <button onClick={this.nextPage}>{">"}</button>
+        <button onClick={this.prevPage} className="customBtn">
+          {"<"}{" "}
+        </button>
+        <button onClick={this.nextPage} className="customBtn">
+          {">"}
+        </button>
         {this.state.isLoading ? (
           <Loading />
         ) : (
@@ -41,8 +43,12 @@ export default class AllArticles extends Component {
             })}
           </ul>
         )}
-        <button onClick={this.prevPage}>{"<"} </button>
-        <button onClick={this.nextPage}>{">"}</button>
+        <button onClick={this.prevPage} className="customBtn">
+          {"<"}{" "}
+        </button>
+        <button onClick={this.nextPage} className="customBtn">
+          {">"}
+        </button>
       </section>
     );
   }
@@ -51,6 +57,7 @@ export default class AllArticles extends Component {
     this.fetchArticles({
       page: this.state.curPage,
       topic: this.props.topic,
+      author: this.props.author,
       ...this.state.sortQuery
     });
   }
@@ -64,6 +71,7 @@ export default class AllArticles extends Component {
         {
           page: this.state.curPage,
           topic: this.props.topic,
+          author: this.props.author,
           ...this.state.sortQuery
         },
         { update: true }
@@ -72,6 +80,7 @@ export default class AllArticles extends Component {
       this.fetchArticles({
         page: this.state.curPage,
         topic: this.props.topic,
+        author: this.props.author,
         ...this.state.sortQuery
       });
     }
@@ -84,6 +93,7 @@ export default class AllArticles extends Component {
         {
           page: this.state.curPage + 1,
           topic: this.props.topic,
+          author: this.props.author,
           ...this.state.sortQuery
         },
         { inc: true }
@@ -98,6 +108,7 @@ export default class AllArticles extends Component {
         {
           page: this.state.curPage - 1,
           topic: this.props.topic,
+          author: this.props.author,
           ...this.state.sortQuery
         },
         { dec: true }

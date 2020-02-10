@@ -16,7 +16,7 @@ export default function CommentCard(props) {
         <button
           id={props.comment.comment_id}
           onClick={props.handleClick}
-          className="commentDelBtn"
+          className="customBtn"
         >
           Delete comment
         </button>

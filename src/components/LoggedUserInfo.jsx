@@ -16,13 +16,18 @@ export default function LoggedUserInfo(props) {
             {props.loggedUser}
           </label>
           <br />
-          <button value={null} onClick={props.handleLogin} id="permLogoutBtn">
+          <button
+            value={null}
+            onClick={props.handleLogin}
+            id="permLogoutBtn"
+            className="customBtn"
+          >
             Logout
           </button>
         </div>
       ) : (
         <Link to="/">
-          <button>Login</button>
+          <button className="customBtn">Login</button>
         </Link>
       )}
     </section>

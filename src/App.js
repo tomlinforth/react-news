@@ -17,13 +17,15 @@ class App extends Component {
     if (this.state.error) return <ErrorPage error={this.state.error} />;
     return (
       <div className="App">
-        <LoggedUserInfo
-          loggedUser={this.state.loggedUser}
-          loggedUserImg={this.state.loggedUserImg}
-          handleLogin={this.handleLoginLogout}
-        />
-        <Header user={this.state.loggedUser} className="header" />
-        <NavBar />
+        <section className="topOfPage">
+          <LoggedUserInfo
+            loggedUser={this.state.loggedUser}
+            loggedUserImg={this.state.loggedUserImg}
+            handleLogin={this.handleLoginLogout}
+          />
+          <Header user={this.state.loggedUser} className="header" />
+          <NavBar />
+        </section>
         <Router className="mainContent">
           <HomePage
             path="/"

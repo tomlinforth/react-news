@@ -14,6 +14,7 @@ export const getArticles = query => {
       params: {
         p: query && query.page,
         topic: query && query.topic,
+        author: query && query.author,
         sort_by: query && query.sortBy,
         order: query && query.order
       }
@@ -25,7 +26,7 @@ export const getArticles = query => {
 
 export const getArticleById = id => {
   return axios
-    .get(`https://toms-news-api.herokuapp.com/api/articles/${id}9999`)
+    .get(`https://toms-news-api.herokuapp.com/api/articles/${id}`)
     .then(({ data }) => {
       return data.article;
     });

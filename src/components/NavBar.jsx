@@ -10,10 +10,14 @@ export default class NavBar extends Component {
     return (
       <nav className="nav">
         <Link to="/">
-          <button onClick={this.handleClick}>Home</button>
+          <button onClick={this.handleClick} className="customBtn">
+            Home
+          </button>
         </Link>
         <Link to="/articles">
-          <button onClick={this.handleClick}>All articles</button>
+          <button onClick={this.handleClick} className="customBtn">
+            All articles
+          </button>
         </Link>
         <TopicSelect
           setDefault={this.state.setDefault}

@@ -10,8 +10,12 @@ export default function ArticleCard(props) {
         <Link to={`/articles/${props.article.article_id}`}>
           <p>{props.article.title}</p>
         </Link>
+        <p></p>
+        <p></p>
         <p>
           <i>
+            Written by {props.article.author} <br />
+            {props.article.comment_count} comments <br />
             Created on{" "}
             {props.article.created_at
               .match(dateReg)[0]

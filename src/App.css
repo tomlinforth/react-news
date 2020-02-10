@@ -9,7 +9,7 @@ html {
     rgba(114, 153, 153) 0%,
     rgba(167, 221, 226, 1) 100%
   ); */
-  background-image: url(https://us.123rf.com/450wm/katiaj/katiaj1509/katiaj150900526/62622146-white-paper-watercolor-seamless-texture.jpg?ver=6);
+  background-image: url(https://cdn.inspirationhut.net/wp-content/uploads/2014/09/natural-paper-texture.jpg);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -61,25 +61,30 @@ ul {
 
 .App {
   text-align: center;
+  font-size: large;
+  font-family: fantasy;
+  display: grid;
+  grid-template-areas:
+    "topOfPage"
+    "mainContent";
+}
+
+.topOfPage {
+  grid-area: topOfPage;
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-areas:
     "none header logInfo"
-    ". nav ."
-    ". mainContent .";
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center; */
+    ". nav .";
+  /* background-image: url(https://us.123rf.com/450wm/katiaj/katiaj1509/katiaj150900526/62622146-white-paper-watercolor-seamless-texture.jpg?ver=6); */
+  background-image: url(https://marketplace.canva.com/MADesBNFAeI/1/thumbnail_large/canva-newspaper-texture-seamless-pattern-MADesBNFAeI.jpg);
 }
+
 .logInfo {
-  /* align-self: flex-end; */
   grid-area: logInfo;
 }
 
 .header {
-  /* flex-basis: 80%; */
   grid-area: header;
 }
 
@@ -110,7 +115,7 @@ ul {
   align-self: stretch;
   border-style: inset;
   margin-top: 10px;
-  background-color: rgba(255, 255, 255, 0.397);
+  background-color: rgba(173, 171, 171, 0.397);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,23 +129,6 @@ ul {
   flex-wrap: wrap;
   justify-content: stretch;
   align-items: center;
-}
-
-.downvoteClicked {
-  font-size: large;
-  margin: 10px;
-  background-color: rgba(241, 81, 81, 0.89);
-}
-
-.upvoteClicked {
-  font-size: large;
-  margin: 10px;
-  background-color: rgba(65, 190, 65, 0.835);
-}
-
-.voteBtn {
-  font-size: large;
-  margin: 10px;
 }
 
 .votingSection {
@@ -162,10 +150,68 @@ ul {
 
 .commentAndVotes {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
 }
 
 .commentDelBtn {
   align-self: flex-end;
+}
+
+.customBtn {
+  font-size: 15px;
+  color: #000000 !important;
+  text-transform: uppercase;
+  background: #ffffffa2;
+  padding: 5px;
+  border: 1px solid #020a06 !important;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  margin: 1px;
+}
+
+.customBtn:hover {
+  color: #494949 !important;
+  font-style: italic;
+  border-radius: 50px;
+  border-color: #494949 !important;
+  transition: all 0.3s ease 0s;
+}
+
+select {
+  font-size: 15px;
+  color: #000000 !important;
+  text-transform: uppercase;
+  background: #ffffffa2;
+  padding: 5px;
+  border: 1px solid #020a06 !important;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  margin: 1px;
+}
+
+select:hover {
+  color: #494949 !important;
+  border-radius: 50px;
+  border-color: #494949 !important;
+  transition: all 0.3s ease 0s;
+}
+
+.voteBtn {
+  font-size: large;
+  margin: 10px;
+}
+.downvoteClicked {
+  font-size: large;
+  margin: 10px;
+  background-color: rgba(241, 81, 81, 0.89);
+}
+
+.upvoteClicked {
+  font-size: large;
+  margin: 10px;
+  background-color: rgba(65, 190, 65, 0.835);
 }
