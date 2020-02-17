@@ -12,7 +12,9 @@ export default class CommentAdder extends Component {
     return this.props.user ? (
       <section className="commentAdder">
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label className="commentAddLabel">
+            <i>Enter comment here</i>
+            <br />
             <b>{this.props.user} : </b>
             <textarea
               required

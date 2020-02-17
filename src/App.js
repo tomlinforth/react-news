@@ -41,6 +41,15 @@ class App extends Component {
             path="/topics/:topic_slug"
             user={this.state.loggedUser}
           />
+          <ErrorPage
+            default
+            error={{
+              response: {
+                status: 404,
+                data: { msg: "Requested URL doesn't exist" }
+              }
+            }}
+          />
         </Router>
       </div>
     );

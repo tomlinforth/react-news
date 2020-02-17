@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function ErrorPage(props) {
-  console.dir(props.error);
   const { status } = props.error.response;
   const { msg } = props.error.response.data;
   return (

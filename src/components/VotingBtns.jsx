@@ -33,13 +33,13 @@ export default class VotingBtns extends Component {
             ↓
           </button>
         </section>
-        <p>Votes:{this.state.votes}</p>
+        <p>
+          Votes:
+          {this.props.votes +
+            (this.state.upvoteClicked ? 1 : this.state.downvoteClicked && -1)}
+        </p>
       </section>
     );
-  }
-
-  componentDidMount() {
-    this.setState({ votes: this.props.votes });
   }
 
   handleUpVoteClick = event => {
@@ -48,7 +48,6 @@ export default class VotingBtns extends Component {
     if (this.state.upvoteClicked) voteVal = -1;
     this.setState(curState => {
       return {
-        votes: curState.votes + voteVal,
         upvoteClicked: !curState.upvoteClicked
       };
     });
@@ -62,7 +61,6 @@ export default class VotingBtns extends Component {
     if (this.state.downvoteClicked) voteVal = 1;
     this.setState(curState => {
       return {
-        votes: curState.votes + voteVal,
         downvoteClicked: !curState.downvoteClicked
       };
     });

@@ -10,7 +10,6 @@ export default class AllArticles extends Component {
     articles: [],
     total_articles: 0,
     curPage: 1,
-    article_count: 0,
     sortQuery: { sortBy: null, order: null },
     isLoading: true,
     error: null
@@ -22,10 +21,10 @@ export default class AllArticles extends Component {
       <section className="articlesPage">
         <SortArticleBar changeQuery={this.changeSortQuery} />
         <br />
-        <button onClick={this.prevPage} className="customBtn">
+        <button onClick={this.changePage} className="customBtn" value={-1}>
           {"<"}{" "}
         </button>
-        <button onClick={this.nextPage} className="customBtn">
+        <button onClick={this.changePage} className="customBtn" value={1}>
           {">"}
         </button>
         {this.state.isLoading ? (
@@ -43,10 +42,10 @@ export default class AllArticles extends Component {
             })}
           </ul>
         )}
-        <button onClick={this.prevPage} className="customBtn">
+        <button onClick={this.changePage} className="customBtn" value={-1}>
           {"<"}{" "}
         </button>
-        <button onClick={this.nextPage} className="customBtn">
+        <button onClick={this.changePage} className="customBtn" value={1}>
           {">"}
         </button>
       </section>
@@ -86,85 +85,47 @@ export default class AllArticles extends Component {
     }
   }
 
-  nextPage = () => {
-    if (this.state.article_count < this.state.total_articles) {
-      this.setState({ isLoading: true });
-      this.fetchArticles(
-        {
-          page: this.state.curPage + 1,
-          topic: this.props.topic,
-          author: this.props.author,
-          ...this.state.sortQuery
-        },
-        { inc: true }
-      );
+  changePage = event => {
+    let pageToChangeTo = this.state.curPage + Number(event.target.value);
+    let changeBy = Number(event.target.value);
+    if (this.state.curPage === 1 && event.target.value === "-1") {
+      pageToChangeTo = this.state.curPage;
+      changeBy = 0;
+    } else if (
+      this.state.curPage === Math.ceil(this.state.total_articles / 10) &&
+      event.target.value === "1"
+    ) {
+      pageToChangeTo = this.state.curPage;
+      changeBy = 0;
     }
+
+    this.setState({ isLoading: true });
+    this.fetchArticles(
+      {
+        page: pageToChangeTo,
+        topic: this.props.topic,
+        author: this.props.author,
+        changeBy,
+        ...this.state.sortQuery
+      },
+      true
+    );
   };
 
-  prevPage = () => {
-    if (this.state.curPage > 1) {
-      this.setState({ isLoading: true });
-      this.fetchArticles(
-        {
-          page: this.state.curPage - 1,
-          topic: this.props.topic,
-          author: this.props.author,
-          ...this.state.sortQuery
-        },
-        { dec: true }
-      );
-    }
-  };
-
-  fetchArticles = (query, options) => {
-    if (options) {
-      options.inc &&
-        api
-          .getArticles(query)
-          .then(({ articles }) => {
-            this.setState(curState => {
-              return {
-                articles,
-                curPage: curState.curPage + 1,
-                article_count: curState.article_count + articles.length,
-                isLoading: false
-              };
-            });
-          })
-          .catch(error => {
-            this.setState({ error, isLoading: false });
+  fetchArticles = (query, update) => {
+    if (update) {
+      api
+        .getArticles(query)
+        .then(({ articles }) => {
+          this.setState({
+            articles,
+            curPage: query.page,
+            isLoading: false
           });
-
-      options.dec &&
-        api
-          .getArticles(query)
-          .then(({ articles }) => {
-            this.setState(curState => {
-              return {
-                articles,
-                curPage: curState.curPage - 1,
-                article_count:
-                  curState.article_count - curState.articles.length,
-                isLoading: false
-              };
-            });
-          })
-          .catch(error => {
-            this.setState({ error, isLoading: false });
-          });
-
-      options.update &&
-        api
-          .getArticles(query)
-          .then(({ articles }) => {
-            this.setState({
-              articles,
-              isLoading: false
-            });
-          })
-          .catch(error => {
-            this.setState({ error, isLoading: false });
-          });
+        })
+        .catch(error => {
+          this.setState({ error, isLoading: false });
+        });
     } else {
       api
         .getArticles(query)
@@ -172,7 +133,6 @@ export default class AllArticles extends Component {
           this.setState({
             articles,
             total_articles,
-            article_count: articles.length,
             isLoading: false
           });
         })

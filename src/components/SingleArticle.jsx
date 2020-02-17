@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import * as api from "../api";
-import { Router, navigate } from "@reach/router";
 import ArticleComments from "./ArticleComments";
 import Loading from "./Loading";
 import ErrorPage from "./ErrorPage";
@@ -27,15 +26,15 @@ export default class SingleArticle extends Component {
             ? "Hide comments"
             : `Show comments (${this.state.article.comment_count})`}
         </button>
-        <Router>
+        {this.state.showComment && (
           <ArticleComments
             path="/comments"
             user={this.props.user}
             total_comments={this.state.article.comment_count}
             updateCommentTotal={this.updateCommentCount}
-            trueOnMount={this.setTrueOnCommentsMount}
+            article_id={this.props.article_id}
           />
-        </Router>
+        )}
       </section>
     );
   }
@@ -52,11 +51,6 @@ export default class SingleArticle extends Component {
 
   showHideComments = () => {
     this.setState(curState => {
-      if (curState.showComment) {
-        navigate(`/articles/${this.props.article_id}`);
-      } else {
-        navigate(`/articles/${this.props.article_id}/comments`);
-      }
       return { showComment: !curState.showComment };
     });
   };
@@ -70,9 +64,5 @@ export default class SingleArticle extends Component {
         }
       };
     });
-  };
-
-  setTrueOnCommentsMount = () => {
-    this.setState({ showComment: true });
   };
 }

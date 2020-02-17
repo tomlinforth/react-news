@@ -74,7 +74,6 @@ export default class ArticleComments extends Component {
 
   componentDidMount() {
     this.fetchComments();
-    this.props.trueOnMount();
   }
 
   commentIsAdded = comment => {
